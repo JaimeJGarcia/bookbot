@@ -1,4 +1,4 @@
-def char_count(book):
+def get_char_dict(book):
     chars_dict = {}
 
     for char in book:
@@ -11,53 +11,53 @@ def char_count(book):
 
     return chars_dict
 
-def sort_on(dict):
-    return dict["num"]
-    
 def extend_dictionary(alpha_dict):
-    print(dict(sorted(alpha_dict.items(), key=lambda x: x[1], reverse = True)))
-    
-
+    return dict(sorted(alpha_dict.items(), key=lambda x: x[1], reverse = True))
 
 def remove_non_alpha(dict):
     for char in list(dict):
         if char.isalpha() == False:
            del dict[char]
-
     return dict
     
 
-def print_report(file_path, word_count, char_dict):
+def print_report(file_path, word_count, report_dict):
     # header
     print(f"--- Begin report of {file_path} ---")
     print(f"{word_count} words found in the document")
 
     #space
-    print("\n\n")
+    print("\n")
 
-    # while char in 
-    #char_dict.sort(reverse = True, key = sort_on)
-    #print(char_dict)
+    # print char count descending order 
+    for char in report_dict:
+        print(f"The {char} character was found {report_dict[char]} times")
+
+    print("--- End report ---")
+
 
 def read_content(book_path):
     with open(book_path) as file:
         return file.read()
 
-def word_count(book):
+def get_word_count(book):
     words = book.split()
     return len(words)
 
 def main():
     book_path = "books/frankenstein.txt"
     book = read_content(book_path)
-    print(book) 
-    print(f"The word count is {word_count(book)}")
-    char_dict = char_count(book)
-    print(f"character count:\n {char_dict}")
-    alpha_dict = remove_non_alpha(char_dict)
-    print(alpha_dict)
-    extend_dictionary(alpha_dict)
+    word_count = get_word_count(book)
 
+    # create a dictionary with alphabetical character as keys and
+    # their character count in the book as the value.
+    # sorted in descending order
+    char_dict = get_char_dict(book) # initial dictionary with char count
+    alpha_dict = remove_non_alpha(char_dict) # removes non alphabetic chars
+    report_dict = extend_dictionary(alpha_dict) # sorts chars on frequency
+    
+    # final CLI report
+    print_report(book_path, word_count, report_dict)
 
 if __name__ == "__main__":
     main()
